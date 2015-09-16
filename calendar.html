@@ -1,0 +1,11 @@
+	<div ng-controller="calendarController as calendar">
+			<div ng-repeat="events in calendar.events">
+				<h3 ng-model="events.title">{{events.title}}</h3>
+				<span ng-model="events.date">{{events.date}}</span>
+			</div>
+		    <form ng-submit="calendar.addEvent()">
+	       	 	<input type="text" ng-model="calendar.eventTitle"  placeholder="Event Title"/>
+	       	 	<input type="text" ng-model="calendar.eventDate"  placeholder="Event Date"/>
+	        	<input type="submit" value="Add Event"/>
+	      	</form>
+      </div>
