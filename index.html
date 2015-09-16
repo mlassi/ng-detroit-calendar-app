@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html ng-app="calendarApp">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+		<link rel="stylesheet" href="styles.css"/>
+	</head>
+	<body>
+		<div ng-controller="calendarController as calendar">
+			<div ng-repeat="events in calendar.events">
+				<h3 ng-model="events.title">{{events.title}}</h3>
+				<span ng-model="events.date">{{events.date}}</span>
+			</div>
+		    <form ng-submit="calendar.addEvent()">
+	       	 	<input type="text" ng-model="calendar.eventTitle"  placeholder="Event Title">
+	       	 	<input type="text" ng-model="calendar.eventDate"  placeholder="Event Date">
+	        	<input type="submit" value="Add Event">
+	      	</form>
+      </div>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+		    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-resource.min.js"></script>
+		<script src="app.js"></script>
+	</body>
+</html>
