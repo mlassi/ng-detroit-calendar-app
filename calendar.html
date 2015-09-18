@@ -2,10 +2,33 @@
 			<div ng-repeat="events in calendar.events">
 				<h3 ng-model="events.title">{{events.title}}</h3>
 				<span ng-model="events.date">{{events.date}}</span>
+				<div ng-click="calendar.removeEvent(events.id)">Remove</div>
 			</div>
 		    <form ng-submit="calendar.addEvent()">
-	       	 	<input type="text" ng-model="calendar.eventTitle"  placeholder="Event Title"/>
-	       	 	<input type="text" ng-model="calendar.eventDate"  placeholder="Event Date"/>
-	        	<input type="submit" value="Add Event"/>
+	       	 	<input type="text" ng-model="calendar.eventTitle" placeholder="Event Title" />
+	       	 	<input type="text" ng-model="calendar.eventDate" placeholder="Event Date" />
+	        	<input type="submit" class="btn" value="Add Event"/>
 	      	</form>
-      </div>
+	</div>
+	<br />
+	<div class="calendar">
+		<div class="day">Day 1</div>
+		<div class="day">Day 2</div>
+		<div class="day">Day 3</div>
+		<div class="day">Day 4</div>
+		<div class="day">Day 5</div>
+		<div class="day">
+			<div>Day 6</div>
+			<div class="well well-sm">My event 1</div>
+		</div>
+		<div class="day">Day 7</div>
+		<div class="day">Day 8</div>
+		<div class="day">Day 9</div>
+		<div class="day">Day 10</div>
+		<div class="day">Day 11</div>
+		<div class="day">Day 12</div>
+		<div class="day">Day 13</div>
+		<div class="day">Day 14</div>
+		<div class="day">Day 15</div>
+		<div class="day">Day 16</div>
+	</div>
