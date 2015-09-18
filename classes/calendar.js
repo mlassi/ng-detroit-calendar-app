@@ -1,9 +1,9 @@
-function Calendar(date) {
-
-    this.month_names = new Array("January", "February", "March", "April", "May", "June", "July",
+function Calendar(date)
+{
+    this.month_labels = new Array("January", "February", "March", "April", "May", "June", "July",
         "August", "September", "October", "November", "December");
 
-    this.day_names = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
+    this.day_labels = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
 
     this.getDaysInMonth = function() {
         return this.days_in_month;
@@ -12,7 +12,7 @@ function Calendar(date) {
     this.setFirstDayofMonth = function() {
         var d = new Date(this.date);
         d.setDate(1);
-        this.first_day_of_month = d.getDay();
+        this.first_day_of_month = d.getDay() + 1;
     }
 
     this.getFirstDayOfMonth = function() {
@@ -35,6 +35,5 @@ function Calendar(date) {
     }
 
     this.init(date);
-
 }
 

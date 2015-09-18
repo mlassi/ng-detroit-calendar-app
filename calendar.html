@@ -11,6 +11,15 @@
 	      	</form>
 	</div>
 	<br />
+	<div class="calendar" ng-init="calendar.initCalendar()">
+		<div class="day-label" ng-repeat="day_label in calendar.day_labels">{{day_label}}</div>
+		<div class="day-box" ng-repeat="pad_day in calendar.days_pad">&nbsp;</div>
+		<div class="day-box" ng-repeat="day in calendar.days">{{day.day_of_month}}</div>
+	</div>
+
+
+
+	<!--
 	<div class="calendar">
 		<div class="day">Day 1</div>
 		<div class="day">Day 2</div>
@@ -32,3 +41,4 @@
 		<div class="day">Day 15</div>
 		<div class="day">Day 16</div>
 	</div>
+	-->

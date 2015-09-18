@@ -6,6 +6,7 @@
 
 body {
     font-family: 'Helvetica', 'Arial', sans-serif;
+    padding: 1%;
 }
 
 .calendar {
@@ -17,12 +18,20 @@ body {
     flex-wrap: wrap;
 }
 
-.calendar .day {
+.calendar .day-box {
     padding: 1%;
     width: 14.28%;
     border-right: 1px solid #bababa;
     border-bottom: 1px solid #bababa;
     min-height: 150px;
+}
+
+.calendar .day-label {
+    padding: 1%;
+    width: 14.28%;
+    background-color: #bababa;
+    color: #fff;
+    min-height: 50px;
 }
 
 .calendar .day:last-child {
