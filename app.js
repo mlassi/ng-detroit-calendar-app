@@ -26,6 +26,13 @@ angular.module('calendarApp', ['ngRoute'])
         this.month_labels = this.calendar_helper.month_labels;
         this.day_labels = this.calendar_helper.day_labels;
 
+        this.filter_years = [
+            {id: 2015, label: '2015'},
+            {id: 2016, label: '2016'},
+            {id: 2017, label: '2017'},
+            {id: 2018, label: '2018'},
+        ];
+
         this.filter_year = 2015;
         this.filter_month = 9;
         this.filter_day = 0;
@@ -35,19 +42,22 @@ angular.module('calendarApp', ['ngRoute'])
 
         // List of Events
         this.events = [
-            {id: 1, title: 'ng-Detroit event 1', date: '2015-04-20'},
-            {id: 2, title: 'ng-Detroit event 2', date: '2015-06-03'}
+            {id: 1, title: 'ng-Detroit event 2', date: '09-01-2015', priority: 2},
+            {id: 2, title: 'ng-Detroit event 4', date: '09-03-2015', priority: 1}
         ];
 
         // Add Event
         this.addEvent = function () {
-            this.events.push({title: calendar.eventTitle, date: calendar.eventDate});
+            this.events.push({title: this.eventTitle, date: this.eventDate});
+            this._initEvent(this.events.slice(-1)[0]);
         };
 
-        // Remove Event
-        this.removeEvent = function (event_id) {
-            for(var i in this.events){
+        // Delete Event
+        this.deleteEvent = function (day, event_id) {
+            console.log(this.days);
+            for(var i in this.days[day - 1].events){
                 if(event_id == this.events[i].id) {
+                    this.days[day - 1].events.splice(i, 1);
                     this.events.splice(i, 1);
                 }
             }
@@ -56,9 +66,7 @@ angular.module('calendarApp', ['ngRoute'])
         this.initCalendar = function (date) {
             this.calendar_helper = new Calendar(date);
             this.initDays();
-
-
-            console.log(this);
+            this.initEvents();
         }
 
         this.initDays = function () {
@@ -72,8 +80,33 @@ angular.module('calendarApp', ['ngRoute'])
             }
         }
 
-        this.drawCalendar = function () {
-            //console.log(this.cal);
+        this.initEvents = function () {
+            for(i=0;i<this.events.length;i++) {
+                var event = this.events[i];
+                this._initEvent(event);
+            }
+        }
+
+        this._initEvent = function(event) {
+            date = new Date(event.date);
+            year = date.getFullYear();
+            month = date.getMonth() + 1;
+            day = date.getDate() - 1;
+            if(year != this.filter_year || month != this.filter_month) {
+                return;
+            }
+            params = {
+                id: event.id,
+                title: event.title,
+                year: year,
+                month: month,
+                day: day,
+                hour: 0,
+                minute: 0,
+                description: '',
+                priority: event.priority
+            };
+            this.days[day].events.push(new Event(params));
         }
 
 

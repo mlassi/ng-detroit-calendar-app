@@ -5,5 +5,5 @@
 function Day(day_of_month)
 {
     this.day_of_month = day_of_month;
-    this.events = {};
+    this.events = [];
 }
