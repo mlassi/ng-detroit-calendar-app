@@ -21,7 +21,11 @@ angular.module('calendarApp', ['ngRoute'])
     })
     .controller('calendarController', function () {
 
-        this.calendar_helper = new Calendar(); // Creates a new object with the current date
+        this.filter_year = 2015;
+        this.filter_month = 9;
+        this.filter_day = 0;
+
+        this.calendar_helper = new Calendar(this.filter_year, this.filter_month); // Creates a new object with the current date
 
         this.month_labels = this.calendar_helper.month_labels;
         this.day_labels = this.calendar_helper.day_labels;
@@ -33,9 +37,6 @@ angular.module('calendarApp', ['ngRoute'])
             {id: 2018, label: '2018'},
         ];
 
-        this.filter_year = 2015;
-        this.filter_month = 9;
-        this.filter_day = 0;
 
         this.days_pad = [];
         this.days = [];
@@ -43,7 +44,7 @@ angular.module('calendarApp', ['ngRoute'])
         // List of Events
         this.events = [
             {id: 1, title: 'ng-Detroit event 2', date: '09-01-2015', priority: 2},
-            {id: 2, title: 'ng-Detroit event 4', date: '09-03-2015', priority: 1}
+            {id: 2, title: 'ng-Detroit event 4', date: '09-03-2015', priority: 0}
         ];
 
         // Add Event
@@ -54,7 +55,6 @@ angular.module('calendarApp', ['ngRoute'])
 
         // Delete Event
         this.deleteEvent = function (day, event_id) {
-            console.log(this.days);
             for(var i in this.days[day - 1].events){
                 if(event_id == this.events[i].id) {
                     this.days[day - 1].events.splice(i, 1);
@@ -64,7 +64,6 @@ angular.module('calendarApp', ['ngRoute'])
         }
 
         this.initCalendar = function (date) {
-            this.calendar_helper = new Calendar(date);
             this.initDays();
             this.initEvents();
         }
@@ -92,6 +91,9 @@ angular.module('calendarApp', ['ngRoute'])
             year = date.getFullYear();
             month = date.getMonth() + 1;
             day = date.getDate() - 1;
+
+            console.log(event.date, month, day, year);
+
             if(year != this.filter_year || month != this.filter_month) {
                 return;
             }

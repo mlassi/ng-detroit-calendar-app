@@ -12,7 +12,7 @@ function Calendar(date)
     this.setFirstDayofMonth = function() {
         var d = new Date(this.date);
         d.setDate(1);
-        this.first_day_of_month = d.getDay() + 1;
+        this.first_day_of_month = d.getDay();
     }
 
     this.getFirstDayOfMonth = function() {
@@ -32,6 +32,8 @@ function Calendar(date)
         this.day = date.getDate();
         this.days_in_month = new Date(this.year, this.month, 0).getDate();
         this.setFirstDayofMonth();
+
+        console.log(this);
     }
 
     this.init(date);
