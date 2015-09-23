@@ -23,15 +23,21 @@ angular.module('calendarApp', ['ngRoute'])
 
         var vm = this;
 
-        vm.insert_id = 0; // this variable won't be necessary once we spin up a back-end data source
+        vm.debug_mode = true;
 
-        vm.max_years = 4; // number of years in filter list (starting with current year)
+        vm.insert_id = 0; // This variable won't be necessary once we spin up a back-end data source
+
+        vm.max_years = 4; // Number of years in filter list (starting with current year)
         vm.filter_years = [];
 
         vm.filter_year = new Date().getFullYear();
         vm.filter_month = new Date().getMonth();
         vm.filter_day = new Date().getDate();
 
+        vm.days_pad = []; // For drawing leading days in a given month
+        vm.days = []; // For drawings days in a given month
+
+        // Watchers for redraw upon filter update
         $scope.$watchGroup([function () {
             return vm.filter_year;
         }, function () {
@@ -40,12 +46,10 @@ angular.module('calendarApp', ['ngRoute'])
             vm.initCalendar();
         });
 
+        // Build year options. Will draw the current year + <vm.max_years>
         for (i = 0; i < vm.max_years; i++) {
             vm.filter_years.push({value: vm.filter_year + i, label: vm.filter_year + i});
         }
-
-        vm.days_pad = [];
-        vm.days = [];
 
         // List of Events TODO: interface with back-end
         vm.events = [
@@ -54,6 +58,7 @@ angular.module('calendarApp', ['ngRoute'])
             {id: 3, title: 'ng-Detroit event 4', date: '09-03-2015', priority: 0}
         ];
 
+        // Temporary method to calculate next insert ID
         vm.getEventInsertId = function() {
             vm.events.forEach(function(e){
                 if(e.id > vm.insert_id) {
@@ -80,13 +85,15 @@ angular.module('calendarApp', ['ngRoute'])
         }
 
         vm.initCalendar = function (date) {
-            vm.calendar_helper = new Calendar(new Date(vm.filter_year, vm.filter_month)); // Creates a new object with the current date
+            // Creates a new Calendar object with filter data (Calendar class will fail back to current YYYY, MM in Date is null/invalid)
+            vm.calendar_helper = new Calendar(new Date(vm.filter_year, vm.filter_month));
             vm.month_labels = vm.calendar_helper.month_labels;
             vm.day_labels = vm.calendar_helper.day_labels;
             vm.initDays();
             vm.initEvents();
         }
 
+        // Updates the
         vm.initDays = function () {
             vm.days_pad = Array(vm.calendar_helper.first_day_of_month);
             for (i = 0; i < vm.days_pad.length; i++) {
@@ -127,5 +134,8 @@ angular.module('calendarApp', ['ngRoute'])
             vm.days[day].events.push(new Event(params));
         }
 
+        vm.checkModel = function() {
+            console.log('[DEBUG] vm:', vm);
+        }
 
     });

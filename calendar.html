@@ -8,7 +8,11 @@
         <input type="text" ng-model="calendar.eventDate" placeholder="Event Date"/>
         <input type="submit" class="btn" value="Add Event"/>
     </form>
-    <input type="submit" class="btn" value="Check Model" ng-click="calendar.checkModel()"/>
+    <div>
+        <h4>Debug Tools</h4>
+        <input type="submit" class="btn" value="Check Model" ng-if="calendar.debug_mode" ng-click="calendar.checkModel()"/>
+    </div>
+
     <br/>
 
     <div class="calendar">
