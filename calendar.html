@@ -3,7 +3,7 @@
     </div>
     <form ng-submit="calendar.addEvent()">
         <select ng-options="year.value as year.label for year in calendar.filter_years" ng-model="calendar.filter_year"></select>
-        <select ng-options="month_label for month_label in calendar.month_labels" ng-model="calendar.filter_month"></select>
+        <select ng-options="month_label as month for (month_label, month) in calendar.month_labels" ng-model="calendar.filter_month"></select>
         <input type="text" ng-model="calendar.eventTitle" placeholder="Event Title"/>
         <input type="text" ng-model="calendar.eventDate" placeholder="Event Date"/>
         <input type="submit" class="btn" value="Add Event"/>

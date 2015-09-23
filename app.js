@@ -71,9 +71,7 @@ angular.module('calendarApp', ['ngRoute'])
 
         // Delete Event
         vm.deleteEvent = function (day, event_id) {
-            console.log('test', arguments, vm.days);
             for (var i in vm.days[day-1].events) {
-                console.log('event_id', event_id, 'vm.events[i].id', vm.events[i].id, 'vm.days[day-1].events', vm.days[day-1].events, i)
                 if (event_id == vm.events[i].id) {
                     vm.days[day-1].events.splice(i, 1);
                     vm.events.splice(i, 1);
@@ -112,9 +110,6 @@ angular.module('calendarApp', ['ngRoute'])
             year = date.getFullYear();
             month = date.getMonth();
             day = date.getDate() - 1;
-
-            console.log(event.date, month, day, year);
-
             if (year != vm.filter_year || month != vm.filter_month) {
                 return;
             }
