@@ -72,7 +72,7 @@ angular.module('calendarApp', ['ngRoute'])
         // Delete Event
         vm.deleteEvent = function (day, event_id) {
             for (var i in vm.days[day-1].events) {
-                if (event_id == vm.events[i].id) {
+                if (event_id == vm.days[day-1].events[i].id) {
                     vm.days[day-1].events.splice(i, 1);
                     vm.events.splice(i, 1);
                 }
