@@ -20,20 +20,18 @@ function Calendar(date)
     }
 
     this.init = function(date) {
+        console.log('date', date);
         if(typeof date == 'string') {
             date = new Date(date);
         } else if(!(date instanceof Date)) {
             date = new Date();
         }
-
         this.date = date;
         this.year = date.getFullYear();
         this.month = date.getMonth() + 1;
         this.day = date.getDate();
         this.days_in_month = new Date(this.year, this.month, 0).getDate();
         this.setFirstDayofMonth();
-
-        console.log(this);
     }
 
     this.init(date);

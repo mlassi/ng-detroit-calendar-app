@@ -7,11 +7,11 @@ angular.module('calendarApp', ['ngRoute'])
         };
 
         $routeProvider
-            .when('/monthview/:date', {
+            .when('/monthview/:year/:month', {
                 controller: 'calendarController as calendar',
                 templateUrl: 'calendar.html'
             })
-            .when('/weekview/:date/:weekofmonth', {
+            .when('/weekview/:year/:month/:weekofmonth', {
                 controller: 'calendarController as calendar',
                 templateUrl: 'week.html'
             })
@@ -19,82 +19,91 @@ angular.module('calendarApp', ['ngRoute'])
                 redirectTo: '/monthview/default'
             });
     })
-    .controller('calendarController', function () {
+    .controller('calendarController', function ($scope) {
 
-        this.filter_year = 2015;
-        this.filter_month = 9;
-        this.filter_day = 0;
+        var vm = this;
 
-        this.calendar_helper = new Calendar(this.filter_year, this.filter_month); // Creates a new object with the current date
+        vm.max_years = 4; // number of years in filter list (starting with current year)
+        vm.filter_years = [];
 
-        this.month_labels = this.calendar_helper.month_labels;
-        this.day_labels = this.calendar_helper.day_labels;
+        vm.filter_year = new Date().getFullYear();
+        vm.filter_month = new Date().getMonth();
+        vm.filter_day = new Date().getDate();
 
-        this.filter_years = [
-            {id: 2015, label: '2015'},
-            {id: 2016, label: '2016'},
-            {id: 2017, label: '2017'},
-            {id: 2018, label: '2018'},
-        ];
+        $scope.$watchGroup([function () {
+            return vm.filter_year;
+        }, function () {
+            return vm.filter_month;
+        }], function (a, b) {
+            vm.initCalendar();
+        });
 
+        for (i = 0; i < vm.max_years; i++) {
+            vm.filter_years.push({value: vm.filter_year + i, label: vm.filter_year + i});
+        }
 
-        this.days_pad = [];
-        this.days = [];
+        vm.days_pad = [];
+        vm.days = [];
 
-        // List of Events
-        this.events = [
+        // List of Events TODO: interface with back-end
+        vm.events = [
+            {id: 1, title: 'ng-Detroit random event ', date: '09-03-2016', priority: 4},
             {id: 1, title: 'ng-Detroit event 2', date: '09-01-2015', priority: 2},
             {id: 2, title: 'ng-Detroit event 4', date: '09-03-2015', priority: 0}
         ];
 
         // Add Event
-        this.addEvent = function () {
-            this.events.push({title: this.eventTitle, date: this.eventDate});
-            this._initEvent(this.events.slice(-1)[0]);
+        vm.addEvent = function () {
+            vm.events.push({title: vm.eventTitle, date: vm.eventDate});
+            vm._initEvent(vm.events.slice(-1)[0]);
         };
 
         // Delete Event
-        this.deleteEvent = function (day, event_id) {
-            for(var i in this.days[day - 1].events){
-                if(event_id == this.events[i].id) {
-                    this.days[day - 1].events.splice(i, 1);
-                    this.events.splice(i, 1);
+        vm.deleteEvent = function (day, event_id) {
+            for (var i in vm.days[day - 1].events) {
+                if (event_id == vm.events[i].id) {
+                    vm.days[day - 1].events.splice(i, 1);
+                    vm.events.splice(i, 1);
                 }
             }
         }
 
-        this.initCalendar = function (date) {
-            this.initDays();
-            this.initEvents();
+        vm.initCalendar = function (date) {
+            vm.calendar_helper = new Calendar(new Date(vm.filter_year, vm.filter_month)); // Creates a new object with the current date
+            console.log(this);
+            vm.month_labels = vm.calendar_helper.month_labels;
+            vm.day_labels = vm.calendar_helper.day_labels;
+            vm.initDays();
+            vm.initEvents();
         }
 
-        this.initDays = function () {
-            this.days_pad = Array(this.calendar_helper.first_day_of_month);
-            for(i=0;i<this.days_pad.length;i++) {
-                this.days_pad[i] = new Day(0);
+        vm.initDays = function () {
+            vm.days_pad = Array(vm.calendar_helper.first_day_of_month);
+            for (i = 0; i < vm.days_pad.length; i++) {
+                vm.days_pad[i] = new Day(0);
             }
-            this.days = Array(this.calendar_helper.days_in_month);
-            for(i=0;i<this.days.length;) {
-                this.days[i] = new Day(++i);
-            }
-        }
-
-        this.initEvents = function () {
-            for(i=0;i<this.events.length;i++) {
-                var event = this.events[i];
-                this._initEvent(event);
+            vm.days = Array(vm.calendar_helper.days_in_month);
+            for (i = 0; i < vm.days.length;) {
+                vm.days[i] = new Day(++i);
             }
         }
 
-        this._initEvent = function(event) {
+        vm.initEvents = function () {
+            for (i = 0; i < vm.events.length; i++) {
+                var event = vm.events[i];
+                vm._initEvent(event);
+            }
+        }
+
+        vm._initEvent = function (event) {
             date = new Date(event.date);
             year = date.getFullYear();
-            month = date.getMonth() + 1;
+            month = date.getMonth();
             day = date.getDate() - 1;
 
             console.log(event.date, month, day, year);
 
-            if(year != this.filter_year || month != this.filter_month) {
+            if (year != vm.filter_year || month != vm.filter_month) {
                 return;
             }
             params = {
@@ -108,7 +117,7 @@ angular.module('calendarApp', ['ngRoute'])
                 description: '',
                 priority: event.priority
             };
-            this.days[day].events.push(new Event(params));
+            vm.days[day].events.push(new Event(params));
         }
 
 
