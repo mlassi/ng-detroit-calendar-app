@@ -1,3 +1,4 @@
 node_modules/
 .sass-cache
 .gulp-scss-cache
+.idea

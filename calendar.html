@@ -1,11 +1,28 @@
-	<div ng-controller="calendarController as calendar">
-			<div ng-repeat="events in calendar.events">
-				<h3 ng-model="events.title">{{events.title}}</h3>
-				<span ng-model="events.date">{{events.date}}</span>
-			</div>
-		    <form ng-submit="calendar.addEvent()">
-	       	 	<input type="text" ng-model="calendar.eventTitle"  placeholder="Event Title"/>
-	       	 	<input type="text" ng-model="calendar.eventDate"  placeholder="Event Date"/>
-	        	<input type="submit" value="Add Event"/>
-	      	</form>
-      </div>
+<div ng-controller="calendarController as calendar" ng-init="calendar.initCalendar()">
+    <div ng-repeat="events in calendar.events">
+    </div>
+    <form ng-submit="calendar.addEvent()">
+        <select ng-options="year.value as year.label for year in calendar.filter_years" ng-model="calendar.filter_year"></select>
+        <select ng-options="month_label as month for (month_label, month) in calendar.month_labels" ng-model="calendar.filter_month"></select>
+        <input type="text" ng-model="calendar.eventTitle" placeholder="Event Title"/>
+        <input type="text" ng-model="calendar.eventDate" placeholder="Event Date"/>
+        <input type="submit" class="btn" value="Add Event"/>
+    </form>
+    <div>
+        <h4>Debug Tools</h4>
+        <input type="submit" class="btn" value="Check Model" ng-if="calendar.debug_mode" ng-click="calendar.checkModel()"/>
+    </div>
+
+    <br/>
+
+    <div class="calendar">
+        <div class="day-label" ng-repeat="day_label in calendar.day_labels">{{day_label}}</div>
+        <div class="day-box" ng-repeat="pad_day in calendar.days_pad">&nbsp;</div>
+        <div class="day-box" ng-repeat="day in calendar.days" ng-model="calendar.days">
+            {{day.day_of_month}}
+            <div ng-repeat="event in day.events" class="event {{event.colors[event.priority]}}">{{event.title}}
+                <span ng-click="calendar.deleteEvent(day.day_of_month, event.id)" class="btn btn-xs">x</span>
+            </div>
+        </div>
+    </div>
+</div>
