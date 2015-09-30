@@ -1,4 +1,9 @@
-*,:after,:before{box-sizing:border-box;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;background-repeat:no-repeat}
+*, :after, :before {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    background-repeat: no-repeat
+}
 
 body {
     font-family: 'Helvetica', 'Arial', sans-serif;
